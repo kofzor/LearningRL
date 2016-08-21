@@ -13,13 +13,13 @@ In this blog post we gonna talk about one of my favorite parts of reinforcement 
 
 A *value function* maps each state to a value that corresponds with the output of the objective function. We use $$V_{M}^{\pi}$$ to denote the value function when following $$\pi$$ on $$M$$, and let $$V_{M}^{\pi}(s)$$ denote the *state-value* of a state $$s$$. In the literature $$M$$ is often omitted as it is clear from context. A state-value for the expected return of a policy on $$M$$ is defined by
 
-$$ V_{M}^{\pi}(s) = \mathbb{E}_{\pi, M} \{ \sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \vert S_t = s \}
+$$ V_{M}^{\pi}(s) = \mathbb{E}_{\pi, M} \{ \sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \vert S_t = s \} $$
 
 where $$\mathbb{E}_{\pi, M} \{ X \vert Y \}$$ is the conditional expectation of $$X$$ given $$Y$$ when following $$\pi$$ on $$M$$. Thus, a state-value indicates how good it is to be in its respective state in terms of the expected return. If we want to perform well, we prefer states with high state-values.
 
 The value function of the optimal policy, $$\pi^*$$ is called the optimal value function and is denoted by $$V_{M}^{\pi^*}$$ and in the literature usually just $$V^*$$. Evidently, it holds that for each state, $$V^*(s)$$ is equal or higher than for other policies:
 
-$$ \forall_{\pi \in \Pi, s \in \matbb{S}} : V^*(s) \geq V^{\pi}(s)$$
+$$ \forall_{\pi \in \Pi, s \in \mathbb{S}} : V^*(s) \geq V^{\pi}(s)$$
 
 
 
@@ -29,7 +29,7 @@ An *action-value function* or more commonly known as *Q-function* is a simple ex
 
 We use $$Q_{M}^{\pi}$$ to denote the Q-function when following $$\pi$$ on $$M$$, and let $$Q_{M}^{\pi}(s,a)$$ denote the *action-value* of a state-action pair $$(s,a)$$. In the literature, it is common to leave out both $$\pi$$ and $$M$$. The action-value is then:
 
-$$ Q_{M}^{\pi}(s,a) = \mathbb{E}_{\pi, M} \{ \sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \vert S_t = s, A_t = a \}
+$$ Q_{M}^{\pi}(s,a) = \mathbb{E}_{\pi, M} \{ \sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \vert S_t = s, A_t = a \} $$
 
 which corresponds to the idea that when you are in state $$s$$ and take $$a$$ and follow $$\pi$$ afterwards then the expectation is as above.
 
@@ -47,7 +47,7 @@ Q-functions are frequently used to guide exploration and exploitation. The most 
 
 Another approach I like to mention is *Boltzmann exploration*, where one introduces a *temperature parameter* $$\beta$$ to map action-values to action probabilities as follows:
 
-$$ Pr(a) = \frac{exp(Q(s,a) / \beta)}{\sum_{b \in \mathbb{A}} exp(Q(s,a) / \beta)}
+$$ Pr(a) = \frac{exp(Q(s,a) / \beta)}{\sum_{b \in \mathbb{A}} exp(Q(s,a) / \beta)} $$
 
 The parameter is used to control how the difference in action-values corresponds to a difference in action-probabilities. As $$\beta$$ goes to zero, Boltzmann chooses greedily, and as $$\beta$$ goes to infinity, all actions have an equal chance. In different research fields this formula is also known as *softmax*.
 
