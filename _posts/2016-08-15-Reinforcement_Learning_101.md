@@ -65,7 +65,7 @@ We can exploit this assumption in both learning and decision making as we do not
 
 
 
-### Types of Markov decision processes and generalizations ###
+### Types of MDPs and generalizations ###
 
 A finite MDP has a finite state space and finite action space, and a continuous MDP has a continuous state space or action space. For an ergodic MDP, all states can be
 reached from all other states in a finite number of transitions. A stationary MDP is an MDP for which the parameters are fixed and independent of the timestep.
@@ -80,7 +80,7 @@ by one-armed bandits, which are machines found in casino’s where one pulls a l
 
 ## Policies and Objective Functions ##
 
-In reinforcement learning, or rather decision making in general, one seeks to optimise an objective that is chosen prior to any interaction with the problem. For example: reaching a specific state or maximise some reward signal over the horizon. In this subsection we discuss a common objective for RL and model the decision making of an agent.
+In reinforcement learning, or rather decision making in general, one seeks to optimise an objective that is chosen prior to any interaction with the problem. For example: reaching a specific state or maximise some reward signal over the horizon.
 
 We model the decision making of an agent as a **policy function**, or *policy*, and denote it by $$\pi$$. In its most general form, a policy maps histories and actions to probabilities:
 
@@ -130,16 +130,20 @@ Consider the following, when developing learning agents, one can distinguish bet
 
 In *offline reinforcement learning*, one learns a policy during the learning phase for some predetermined time and then measures the learned policy's performance during deployment. This differs from *online reinforcement learning* where one measures the performance of the *behaviour policy*. Or in other words, the learning and deployment phase occur simulatenously. Evidently, an agent that starts from scratch will perform poorly in the initial stages and it becomes very important to balance between exploring an unknown but potentially good action and exploiting known good actions. This is known under various names: *exploration versus exploitation dilemma*, *balancing exploration with exploitation*, and the *exploration-exploitation trade-off*.
 
-In the literature, the most common approach to measuring and comparing in experiments (as well as in OpenAI/Gym) is to measure the performance of the behaviour policy over a finite timesteps (or episodes) and averaged over a number of timesteps.
+In the literature, the most common approach to measuring and comparing in experiments (as well as in OpenAI/Gym) is to measure the performance of the behaviour policy over a finite timesteps (or episodes) and average over a number of timesteps.
 
 
-## Future topics ##
+## Afterword ##
+
+I hope you learned a bit about reinforcement learning from this blog post.
 
 In future blogs, I intent to discuss
 
 - Value functions, and the learning thereof.
 - Exploration-vs-Exploitation in MDPs
 - Difficulties & Troubleshooting RL implementations
+
+and, of course, code for you to try yourself!
 
 Feel free to suggest topics!
 
