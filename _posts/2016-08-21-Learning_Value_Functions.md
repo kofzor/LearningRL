@@ -314,7 +314,7 @@ for _ in range(1000):
         else :
             action = greedy_action(state)
 
-        # SARSA
+        # Expected SARSA
         if t > 0 : # Because previous state and action do not yet exist at t=0
             Vpi = sum([ Q[(state, a)] * ((action==a)*(1.-epsilon) + epsilon*(1./len(actionspace))) for a in actionspace ])
             Q[(prevstate,prevaction)] = Q[(prevstate,prevaction)] + 1./n[(prevstate,prevaction)] * ( reward + gamma * Vpi - Q[(prevstate,prevaction)] )
