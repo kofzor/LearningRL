@@ -20,7 +20,7 @@ For example, let's suppose we have a robot (our agent) that we send to Mars (the
 
 Although the idea of RL is to avoid the necessity of modelling an environment, it is naturally very useful to model some environments in order to research how agents would behave and learn when they start from scratch. 
 
-In this blog post we will consider **Markov decision processes**. A Markov decision process (MDP) is an often-used discrete-time framework for modelling the dynamics of an environment ([Howard1960][Howard1960]; [Puterman1994][Puterman1994]). A very explicit notation for an MDP is a sextuple $$M = (\mathbb{S}, \mathbb{A}, P, R, I, \gamma)$$, where
+In this blog post we will consider **Markov decision processes**. A Markov decision process (MDP) is an often-used discrete-time framework for modelling the dynamics of an environment (Howard, 1960; Puterman, 1994). A very explicit notation for an MDP is a sextuple $$M = (\mathbb{S}, \mathbb{A}, P, R, I, \gamma)$$, where
 
 
 - $$\mathbb{S}$$ is the state space; the set of states that the MDP can be in. A state contains information regarding the environment. E.g., when flying a helicopter, a state pertains to the position and orientation of the helicopter. Let $$s \in S$$ denote a context-dependent state, and let $$s_t$$ denote the observed state at timestep $$t$$.
@@ -30,8 +30,9 @@ In this blog post we will consider **Markov decision processes**. A Markov decis
 - $$I : \mathbb{S} \to [0, 1]$$; is an initial state function that outputs the probability that a state is the MDPs initial state $$s_0$$. E.g., the helicopter can take off at several locations.
 - $$\gamma \in [0, 1]$$; is a discount rate parameter that weighs off imminent rewards versus long-term rewards.
 
-In the literature, one may find different notations. Commonly, no initial state function is mentioned, or the transition and reward functions are defined differently (or even notated as T). To the best of my knowledge, the above notation is the most explicit. Actual implementations of MDPs employ datastructures of the programming language. For example, a numpy matrix with values between 0 and 1 describe the transition of a state-action pair (row) to a subsequent state (column).
+In the literature, one may find different notations. Commonly, no initial state function is mentioned, or the transition and reward functions are defined differently (or even notated as T). To the best of my knowledge, the above notation is the most explicit.
 
+Actual implementations of MDPs employ datastructures of the programming language. For example, a numpy matrix with values between 0 and 1 describe the transition of a state-action pair (row) to a subsequent state (column).
 
 At the beginning of interaction with an MDP, an agent observes an initial state $$s_0$$ and chooses an action $$a_0$$. From that point on, at each discrete timestep $$t = 0, 1, 2, \dots$$, it observes a successor state $$s_{t+1}$$ and a reward $$r_{t+1}$$, and chooses a new action accordingly.
 
@@ -40,13 +41,50 @@ At the beginning of interaction with an MDP, an agent observes an initial state 
 
 
 
+### Properties of MDPs ###
+
+A stochastic MDP is an MDP where the transition function, reward function or initial state function is stochastic. Conversely, an MDP is deterministic when all three are deterministic. Notice that for a deterministic MDP, $S_t$ and $R_t$ can still be stochastic when actions are selected stochastically. Over time, the made observations and actions accumulate to a history. If the MDP or decision making is stochastic, then the resulting history is stochastic. We let $$H_{0:t}$$ denote the random variable over the history from timestep $$0$$ up to $$t$$ and define it as 
+
+$$H_{0:t} = S_0, A_0, R_1, S_1, A_1, R_2, S_2, A_2, \dots, R_t, S_t$$ ,
+
+where $$A_t$$ is the random variable over the action taken at timestep $$t$$. The duration of the interaction is the horizon. If the interaction stops after a finite
+number of timesteps, we say the problem has a finite horizon and otherwise an infinite horizon. Some MDPs have terminal states, which divide interaction into episodes.
+Whenever a terminal state is reached, it ends the current episode and a new one starts by resetting the MDP to an initial state. E.g., a maze has an exit as terminal state.
+An MDP makes two important assumptions about the environment. First, it assumes that an agent can always perfectly observe the state of the environment. And second, it
+assumes that the Markov property holds (Howard, 1960; Puterman, 1994):
+
+*The future is conditionally independent of the past given the present.*
+
+Or mathematically, we note
+
+$$Pr(R_{t+1}, S_{t+1} \vert S_t, A_t) = Pr(R_{t+1}, S_{t+1} \vert H_{0:t}, A_t)$$
+
+We can exploit this assumption in both learning and decision making as we do not have to account for the past when we consider the present.
+
+
+
+### Types of Markov decision processes and generalizations ###
+
+A finite MDP has a finite state space and finite action space, and a continuous MDP has a continuous state space or action space. For an ergodic MDP, all states can be
+reached from all other states in a finite number of transitions. A stationary MDP is an MDP for which the parameters are fixed and independent of the timestep.
+
+A partially observable Markov decision process (POMDP) does not assume that the state is perfectly observable and hence generalizes the MDP framework. This introduces
+an uncertainty over the state of the environment and complicates decision making as well as learning.
+
+Multi-armed bandit problems can be considered as a special type of MDP: it always starts in the same state and each action leads to a terminal state. The name is inspired
+by one-armed bandits, which are machines found in casino’s where one pulls a lever in the hope of getting a winning combination (Sutton and Barto, 1998).
+
+
 
 ## Online / Offline Reinforcement Learning ##
 
 
 
 
+
+
 ## References
-[Howard1960]: R.A. Howard. Dynamic programming and Markov processes. MIT Press, 1960.
-[Puterman1994]: M.L. Puterman. Markov Decision Processes: Discrete Stochastic Dynamic Programming. John Wiley & Sons, Inc. new York, NY, USA, 1994.
+[Howard, 1960]: R.A. Howard. Dynamic programming and Markov processes. MIT Press, 1960.
+[Puterman, 1994]: M.L. Puterman. Markov Decision Processes: Discrete Stochastic Dynamic Programming. John Wiley & Sons, Inc. new York, NY, USA, 1994.
+[Sutton and Barto, 1998] R.S. Sutton and A.G. Barto. Reinforcement Learning: An Introduction (Adaptive Computation and Machine Learning). The MIT Press, 1998. 
 
