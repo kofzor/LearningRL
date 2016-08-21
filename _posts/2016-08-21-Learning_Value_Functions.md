@@ -60,9 +60,9 @@ equation for an action-value is derived as follows:
 
 $$ 
 \begin{align}
-Q_{M}^{\pi}(s,a) &= \mathbb{E}_{\pi, M} \{ \sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \vert S_t = s, A_t = a \}
-&= \mathbb{E}_{\pi, M} \{ R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \dots \vert S_t = s, A_t = a \}
-&= \mathbb{E}_{\pi, M} \{ R_{t+1} + \gamma V^{\pi}(S_{t+1}) \vert S_t = s, A_t = a \}
+Q_{M}^{\pi}(s,a) &= \mathbb{E}_{\pi, M} \{ \sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \vert S_t = s, A_t = a \} \\
+&= \mathbb{E}_{\pi, M} \{ R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \dots \vert S_t = s, A_t = a \} \\
+&= \mathbb{E}_{\pi, M} \{ R_{t+1} + \gamma V^{\pi}(S_{t+1}) \vert S_t = s, A_t = a \} \\
 &= \mathbb{E}_{\pi, M} \{ R_{t+1} + \gamma \sum_{a'\in\mathbb{A}}\pi(S_{t+1},a')Q^{\pi}(S_{t+1}, a') \vert S_t = s, A_t = a \}
 \end{align}
 $$
