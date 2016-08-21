@@ -185,7 +185,7 @@ for _ in range(500):
 
         # Epsilon-Greedy
         if epsilon > random.random() :
-            action = env.action_space.sample() # your agent here (this takes random actions)
+            action = env.action_space.sample()
         else :
             action = greedy_action(state)
 
@@ -246,7 +246,7 @@ for _ in range(500):
     for t in range(1000):
         # Epsilon-Greedy
         if epsilon > random.random() :
-            action = env.action_space.sample() # your agent here (this takes random actions)
+            action = env.action_space.sample()
         else :
             action = greedy_action(state)
 
@@ -310,7 +310,7 @@ for _ in range(1000):
     for t in range(1000):
         # Epsilon-Greedy
         if epsilon > random.random() :
-            action = env.action_space.sample() # your agent here (this takes random actions)
+            action = env.action_space.sample()
         else :
             action = greedy_action(state)
 
@@ -379,7 +379,7 @@ for _ in range(1000):
 
         # Epsilon-Greedy
         if epsilon > random.random() :
-            action = env.action_space.sample() # your agent here (this takes random actions)
+            action = env.action_space.sample()
         else :
             action = greedy_action(state)
 
