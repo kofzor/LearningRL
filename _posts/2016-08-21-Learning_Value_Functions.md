@@ -90,7 +90,7 @@ $$Q_{t+1}(S_t, A_t) = Q_t(S_t, A_t) + \alpha_t (X_t - Q_t(S_t, A_t))$$
 
 where $$Q_{t+1}(S_t, A_t)$$ is the updated action-value estimate, and $$X_t$$ is a *value sample* observed at $$t$$ and is based on different mechanisms in the literature. The *learning rate* $$\alpha_t \in [0, 1]$$ weighs off new samples with previous samples. 
 
-The above TD-learning algorithm is commonly implemented in an online manner: whenever the agent takes an action and observes reward $r_{t+1}$ and transition to next state $s_{t+1}$, a value sample $X_t$ is constructed and the relevant estimate (of the previous state-action pair) is updated. Once updated, the sample is discarded.
+The above TD-learning algorithm is commonly implemented in an online manner: whenever the agent takes an action and observes reward $$r_{t+1}$$ and transition to next state $$s_{t+1}$$, a value sample $$X_t$$ is constructed and the relevant estimate (of the previous state-action pair) is updated. Once updated, the sample is discarded.
 
 Below a short list of different value samples used by different RL algorithms:
 
@@ -110,15 +110,15 @@ where $$Q_t^b$$ is the second Q-function, see [Double Q-learning](https://papers
 Despite that sample rewards and transitions are unbiased, the value samples used by TD algorithms are usually biased as they are drawn from a *bootstrap distribution*. Namely,
 estimates are used instead of the true action-values:
 
-<center> $$Q_t(S_{t+1}, \cdot)$$ instead of $$Q^*(S_{t+1}, \cdot)$$ or $$Q^\pi(S_{t+1}, \cdot)$$ </center>
+$$Q_t(S_{t+1}, \cdot)$$ instead of $$Q^*(S_{t+1}, \cdot)$$ or $$Q^\pi(S_{t+1}, \cdot)$$
 
 However, bootstrapping has several advantages. First, we do not need to wait until we have a sample return, consisting of a(n infinite) number of sample rewards, before
 we can update estimates. This can tremendously improve the speed with which we learn. Second, we need to know the true action-values (or the optimal policy) to obtain unbiaased samples, which are simply not known. Third, the bootstrap distribution’s variance is smaller than the variance of the distribution over whole returns.
 
 A second bias occurs when we change the implicit estimation policy towards an action that is perceived as better than it actually is. I.e., for Q-learning, we estimate the
-optimal action-value based on the maximum action-value estimate [van Hasselt, 2011]:
+optimal action-value based on the maximum action-value estimate [van Hasselt, 2011] :
 
-<center> $$max_{a \in \mathbb{A}} Q_t(S_{t+1}, a)$$ instead of $$Q_t(S_{t+1}, a*) $$
+$$max_{a \in \mathbb{A}} Q_t(S_{t+1}, a)$$ instead of $$Q_t(S_{t+1}, a*) $$
 
 where $$a*$$ denotes the optimal action in the successor state. This overestimation bias becomes apparent when we severely overestimate action-values of suboptimal actions, due to an extremely high value sample or improper initialization. As a result, other estimates can also become overestimated as value samples will be inflated due to bootstrapping, and may remain inaccurate as well as mislead action-selection for an extended period of time. Double Q-learning addresses this overestimation bias, but may suffer from an underestimation bias instead [van Hasselt, 2011]
 
