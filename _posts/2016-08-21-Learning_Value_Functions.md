@@ -41,7 +41,7 @@ $$V^{\pi}(s) = \sum_{a\in\mathbb{A}}\pi(s,a)Q^{\pi}(s, a)$$ and $$V^*(s) = max_{
 
 ### Deriving policies from Q-functions ###
 
-It is very straightforward to derive policies from Q-functions as they describe how good each action is. In the literature, the most common derivation is the *greedy policy* of a Q-function: in each state, choose the *greedy action*, which is the action with the highest action-value. Notice that if we know $$Q^*$$ then we can find $$\pi^*$$ by *acting greedy with respect to $$Q^*$$*.
+It is very straightforward to derive policies from Q-functions as they describe how good each action is. In the literature, the most common derivation is the *greedy policy* of a Q-function: in each state, choose the *greedy action*, which is the action with the highest action-value. Notice that we can derive $$\pi^*$$ by using a greedy policy with respect to $$Q^*$$*. Also notice that $$Q^*$$ is sufficient but not necessary for $$\pi^*$$: any of the action-value actions can be changed as long as the same best actions keep the highest action-values.
 
 Q-functions are frequently used to guide exploration and exploitation. The most common approach is to use **epsilon-greedy**: at each timestep, choose a greedy action with probability $$1-\epsilon$$ or choose a random action with probability $$\epsilon$$ [Sutton and Barto, 1998]. Interestingly, in the literature never considers the case that a random action might still choose the same greedy action and hence the chance of choosing the greedy action is usually higher than $$1-\epsilon$$. When using epsilon-greedy, one commonly starts with a high $$\epsilon$$ and decrease it over a time. Evidently, when $$\epsilon = 0$$, it is equal to the greedy policy.
 
@@ -52,9 +52,20 @@ $$ Pr(a) = \frac{exp(Q(s,a) / \beta)}{\sum_{b \in \mathbb{A}} exp(Q(s,a) / \beta
 The parameter is used to control how the difference in action-values corresponds to a difference in action-probabilities. As $$\beta$$ goes to zero, Boltzmann chooses greedily, and as $$\beta$$ goes to infinity, all actions have an equal chance. In different research fields this formula is also known as *softmax*.
 
 
+## Bellman Equations ##
+
+For MDPs, action-values (and state-values) share an interesting recursive relation between them, clarified by the so-called Bellman equation [Bellman, 1957]. The Bellman
+equation for an action-value is derived as follows:
 
 
-
+$$ 
+\begin{align}
+Q_{M}^{\pi}(s,a) &= \mathbb{E}_{\pi, M} \{ \sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \vert S_t = s, A_t = a \}
+&= \mathbb{E}_{\pi, M} \{ R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \dots \vert S_t = s, A_t = a \}
+&= \mathbb{E}_{\pi, M} \{ R_{t+1} + \gamma V^{\pi}(S_{t+1}) \vert S_t = s, A_t = a \}
+&= \mathbb{E}_{\pi, M} \{ R_{t+1} + \gamma \sum_{a'\in\mathbb{A}}\pi(S_{t+1},a')Q^{\pi}(S_{t+1}, a') \vert S_t = s, A_t = a \}
+\end{align}
+$$
 
 
 
@@ -62,6 +73,9 @@ The parameter is used to control how the difference in action-values corresponds
 
 
 ## References
+
+[Bellman, 1957] R. Bellman. Dynamic Programming. Princeton University Press, 1957.
+
 [Sutton and Barto, 1998] R.S. Sutton and A.G. Barto. Reinforcement Learning: An Introduction (Adaptive Computation and Machine Learning). The MIT Press, 1998. 
 
 [C. Szepesvari, 2010] Algorithms for Reinforcement Learning. Synthesis Lectures on Artificial Intelligence and Machine Learning. Morgan & Claypool, 2010.
