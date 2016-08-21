@@ -3,6 +3,7 @@ layout: post
 title:  "Reinforcement Learning 101"
 date:   2016-08-15 20:53:58 +0200
 categories: reinforcement-learning machine-learning
+comments: true
 ---
 
 
@@ -127,7 +128,7 @@ Although I have not discussed any RL algorithm yet, I think it is very important
 
 Consider the following, when developing learning agents, one can distinguish between a *learning phase* and a *deployment phase*. During the learning phase, the agent tries out actions, learns and infers a good policy for the environment that it can subsequentially follow during the deployment phase, where the agent's performance matters. Note that the learning phase may very well happen within the same environment as the deployment phase. In RL one also distinguishes between an *estimation policy*, the policy one learns about, and the *behaviour policy*, that the agent uses for interaction with the environment. Algorithms for RL can thus be *on-policy* when the estimation policy is the same as the behaviour policy, or *off-policy* when they are different.
 
-In *offline reinforcement learning*, one learns a policy during the learning phase for some predetermined time and then measures the learned policy's performance during deployment. This differs from *online reinforcement learning* where one measures the performance of the *behaviour policy*. Or in other words, the learning and deployment phase occur simulatenously. Evidently, an agent that starts from scratch will perform poorly in the initial stages and it becomes very important to balance between exploring an unknown but potentially good action and exploiting known good actions. This is known as the **exploration versus exploitation dilemma* or *balancing exploration with exploitation* or the *exploration-exploitation trade-off*.
+In *offline reinforcement learning*, one learns a policy during the learning phase for some predetermined time and then measures the learned policy's performance during deployment. This differs from *online reinforcement learning* where one measures the performance of the *behaviour policy*. Or in other words, the learning and deployment phase occur simulatenously. Evidently, an agent that starts from scratch will perform poorly in the initial stages and it becomes very important to balance between exploring an unknown but potentially good action and exploiting known good actions. This is known under various names: *exploration versus exploitation dilemma*, *balancing exploration with exploitation*, and the *exploration-exploitation trade-off*.
 
 In the literature, the most common approach to measuring and comparing in experiments (as well as in OpenAI/Gym) is to measure the performance of the behaviour policy over a finite timesteps (or episodes) and averaged over a number of timesteps.
 
