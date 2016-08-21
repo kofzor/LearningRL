@@ -102,7 +102,7 @@ Algorithm | Value Sample
 **Expected SARSA** | $$X_t = R_{t+1} + \gamma \sum_{a' \in \mathbb{A}} \pi_t(S_{t+1},a') Q_t(S_{t+1}, a')$$
 **Double Q-learning** | $$X_t = R_{t+1} + \gamma \max_{a' \in \mathbb{A}} Q_t^b(S_{t+1}, a')$$
 
-where $Q_t^b$ is the second Q-function, see [Double Q-learning][https://papers.nips.cc/paper/3964-double-q-learning.pdf]. Notice that Q-learning and Double Q-learning are off-policy: they learn about a different (implicit) policy than the behaviour policy used for interaction. SARSA and Expected SARSA are on-policy: they learn about the same policy as the agent follows.
+where $$Q_t^b$$ is the second Q-function, see [Double Q-learning](https://papers.nips.cc/paper/3964-double-q-learning.pdf). Notice that Q-learning and Double Q-learning are off-policy: they learn about a different (implicit) policy than the behaviour policy used for interaction. SARSA and Expected SARSA are on-policy: they learn about the same policy as the agent follows.
 
 
 ### Bias and Variance ###
