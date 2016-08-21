@@ -26,7 +26,7 @@ In this blog post we will consider **Markov decision processes**. A Markov decis
 - $$\mathbb{S}$$ is the state space; the set of states that the MDP can be in. A state contains information regarding the environment. E.g., when flying a helicopter, a state pertains to the position and orientation of the helicopter. Let $$s \in S$$ denote a context-dependent state, and let $$s_t$$ denote the observed state at timestep $$t$$.
 - $$\mathbb{A}$$ is the action space; the set of actions available to the agent. E.g., the pilot can choose to yaw, roll or pitch the helicopter. Let $$a$$ denote a context-dependent action, and let $$a_t$$ denote the action taken at $$t$$.
 - $$P : \mathbb{S} \times \mathbb{A} \times \mathbb{S} \to [0, 1]$$; is a transition function that outputs a probability for a transition to a successor state after taking an action in a state. Let $$S_t$$ denote the random variable for the state at $$t$$, and $$s'$$ denote the immediate subsequent state. For each state $$s$$ and action $$a$$, the probability of transitioning to a successor state $$s'$$ respects constraints $$Pr(s,a,s') \geq 0$$ and $$\sum_{s \in S} Pr(s,a,s') = 1$$. E.g., after steering, the helicopter makes a turn.
-- $$R : \mathbb{S} \times \mathbb{A} \times \mathbb{S} \times \mathbb{R} \to [0, 1]$$; is a reward function that outputs a probability for a numeric reward given a transition. Let $$R_t$$ denote the random variable for the reward at $t$, and let $$r_t$$ denote the observed reward at $$t$$. E.g., arriving at the destination incurs a high reward, and crashing incurs a negative reward.
+- $$R : \mathbb{S} \times \mathbb{A} \times \mathbb{S} \times \mathbb{R} \to [0, 1]$$; is a reward function that outputs a probability for a numeric reward given a transition. Let $$R_t$$ denote the random variable for the reward at $$t$$, and let $$r_t$$ denote the observed reward at $$t$$. E.g., arriving at the destination incurs a high reward, and crashing incurs a negative reward.
 - $$I : \mathbb{S} \to [0, 1]$$; is an initial state function that outputs the probability that a state is the MDPs initial state $$s_0$$. E.g., the helicopter can take off at several locations.
 - $$\gamma \in [0, 1]$$; is a discount rate parameter that weighs off imminent rewards versus long-term rewards.
 
@@ -47,6 +47,6 @@ At the beginning of interaction with an MDP, an agent observes an initial state 
 
 
 ## References
-[Howard1960] R.A. Howard. Dynamic programming and Markov processes. MIT Press, 1960.
-[Puterman1994] M.L. Puterman. Markov Decision Processes: Discrete Stochastic Dynamic Programming. John Wiley & Sons, Inc. new York, NY, USA, 1994.
+[Howard1960]: R.A. Howard. Dynamic programming and Markov processes. MIT Press, 1960.
+[Puterman1994]: M.L. Puterman. Markov Decision Processes: Discrete Stochastic Dynamic Programming. John Wiley & Sons, Inc. new York, NY, USA, 1994.
 
