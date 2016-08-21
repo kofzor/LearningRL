@@ -43,9 +43,9 @@ At the beginning of interaction with an MDP, an agent observes an initial state 
 
 ### Properties of MDPs ###
 
-A stochastic MDP is an MDP where the transition function, reward function or initial state function is stochastic. Conversely, an MDP is deterministic when all three are deterministic. Notice that for a deterministic MDP, $S_t$ and $R_t$ can still be stochastic when actions are selected stochastically. Over time, the made observations and actions accumulate to a history. If the MDP or decision making is stochastic, then the resulting history is stochastic. We let $$H_{0:t}$$ denote the random variable over the history from timestep $$0$$ up to $$t$$ and define it as 
+A stochastic MDP is an MDP where the transition function, reward function or initial state function is stochastic. Conversely, an MDP is deterministic when all three are deterministic. Notice that for a deterministic MDP, $$S_t$$ and $$R_t$$ can still be stochastic when actions are selected stochastically. Over time, the made observations and actions accumulate to a history. If the MDP or decision making is stochastic, then the resulting history is stochastic. We let $$H_{0:t}$$ denote the random variable over the history from timestep $$0$$ up to $$t$$ and define it as 
 
-$$H_{0:t} = S_0, A_0, R_1, S_1, A_1, R_2, S_2, A_2, \dots, R_t, S_t$$ ,
+$$H_{0:t} = \langle S_0, A_0, R_1, S_1, A_1, R_2, S_2, A_2, \dots, R_t, S_t \rangle$$
 
 where $$A_t$$ is the random variable over the action taken at timestep $$t$$. The duration of the interaction is the horizon. If the interaction stops after a finite
 number of timesteps, we say the problem has a finite horizon and otherwise an infinite horizon. Some MDPs have terminal states, which divide interaction into episodes.
@@ -69,7 +69,7 @@ A finite MDP has a finite state space and finite action space, and a continuous 
 reached from all other states in a finite number of transitions. A stationary MDP is an MDP for which the parameters are fixed and independent of the timestep.
 
 A partially observable Markov decision process (POMDP) does not assume that the state is perfectly observable and hence generalizes the MDP framework. This introduces
-an uncertainty over the state of the environment and complicates decision making as well as learning.
+an uncertainty over the state of the environment and complicates learning & decision making.
 
 Multi-armed bandit problems can be considered as a special type of MDP: it always starts in the same state and each action leads to a terminal state. The name is inspired
 by one-armed bandits, which are machines found in casino’s where one pulls a lever in the hope of getting a winning combination (Sutton and Barto, 1998).
@@ -84,7 +84,7 @@ by one-armed bandits, which are machines found in casino’s where one pulls a l
 
 
 ## References
-[Howard, 1960]: R.A. Howard. Dynamic programming and Markov processes. MIT Press, 1960.
-[Puterman, 1994]: M.L. Puterman. Markov Decision Processes: Discrete Stochastic Dynamic Programming. John Wiley & Sons, Inc. new York, NY, USA, 1994.
+[Howard, 1960] R.A. Howard. Dynamic programming and Markov processes. MIT Press, 1960.
+[Puterman, 1994] M.L. Puterman. Markov Decision Processes: Discrete Stochastic Dynamic Programming. John Wiley & Sons, Inc. new York, NY, USA, 1994.
 [Sutton and Barto, 1998] R.S. Sutton and A.G. Barto. Reinforcement Learning: An Introduction (Adaptive Computation and Machine Learning). The MIT Press, 1998. 
 
