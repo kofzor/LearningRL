@@ -152,7 +152,6 @@ Put simply, the easiest way to guarantee convergence: use a simple learning rate
 For a discrete problem, the following python implementation of Q-learning works well enough:
 
 ```python
-
 import gym
 env = gym.make("Taxi-v1")
 
@@ -173,14 +172,12 @@ epsilon = 0.1
 gamma = 0.9
 
 
-episodescores = []
-
 # Simulation
+episodescores = []
 for _ in range(500):
     nextstate = env.reset()
     currentscore = 0.
     for _ in range(1000):
-        # env.render()
         state = nextstate
 
         # Epsilon-Greedy
@@ -195,12 +192,73 @@ for _ in range(500):
         # Q-learning
         if done :
             Q[(state,action)] = Q[(state,action)] + 1./n[(state,action)] * ( reward - Q[(state,action)] )
-            episodescores.append(currentscore)
             break
         else :
             Q[(state,action)] = Q[(state,action)] + 1./n[(state,action)] * ( reward + gamma * max_q(nextstate) - Q[(state,action)] )
 
-        print nextstate, reward, done, info
+    episodescores.append(currentscore)
+
+
+import matplotlib.pyplot as plt
+plt.plot(episodescores)
+plt.xlabel('Episode')
+plt.ylabel('Cumu. Reward of Episode')
+plt.show()
+```
+
+This code resulted in the following performance:
+
+![Q-learning]({{ site.baseurl }}/images/qlearning.png)
+
+
+And here also a simple implementation of SARSA:
+
+```python
+import gym
+env = gym.make("Taxi-v1")
+
+
+# Q-function
+# initial_Q = 0.
+from collections import defaultdict
+Q = defaultdict(lambda : 0.) # Q-function
+n = defaultdict(lambda : 1.) # number of visits
+
+
+# Extra
+actionspace = range(env.action_space.n)
+greedy_action = lambda s : max(actionspace, key=lambda a : Q[(s,a)])
+import random
+epsilon = 0.1
+gamma = 0.9
+
+
+# Simulation
+episodescores = []
+for _ in range(500):
+    state = env.reset()
+    currentscore = 0.
+    for t in range(1000):
+        # Epsilon-Greedy
+        if epsilon > random.random() :
+            action = env.action_space.sample() # your agent here (this takes random actions)
+        else :
+            action = greedy_action(state)
+
+        # SARSA
+        if t > 0 : # Because previous state and action do not yet exist at t=0
+            Q[(prevstate,prevaction)] = Q[(prevstate,prevaction)] + 1./n[(prevstate,prevaction)] * ( reward + gamma * Q[(state, action)] - Q[(prevstate,prevaction)] )
+
+        nextstate, reward, done, info = env.step(action)
+        currentscore += reward
+
+        if done :
+            Q[(prevstate,prevaction)] = Q[(prevstate,prevaction)] + 1./n[(state,action)] * ( reward - Q[(prevstate,prevaction)] )
+            break
+
+        prevstate, state, prevaction = state, nextstate, action
+
+    episodescores.append(currentscore)
 
 
 import matplotlib.pyplot as plt
@@ -209,15 +267,11 @@ plt.plot(episodescores)
 plt.xlabel('Episode')
 plt.ylabel('Cumu. Reward of Episode')
 plt.show()
-
-
 ```
 
-This code resulted in the following performance:
+And the resulting image. Notice that the performance does not seem to converge to the optimal, this is because SARSA is on-policy and the behaviour-policy remains epsilon-greedy with $$\epsilon = 0.1$$ and thus will do a random (bad) action roughly 10% of the time.
 
-![Q-learning]({{ site.baseurl }}/images/qlearning.png)
-
-
+![Q-learning]({{ site.baseurl }}/images/sarsa.png)
 
 
 
