@@ -18,9 +18,9 @@ For example, let's suppose we have a robot (our agent) that we send to Mars (the
 
 ## Modelling the environment ##
 
-Although the idea of RL is to avoid the necessity of modelling an environment, it is naturally very useful to model some environments in order to research how agents would behave and learn when they start from scratch. In this blog post we will consider **Markov decision processes**.
+Although the idea of RL is to avoid the necessity of modelling an environment, it is naturally very useful to model some environments in order to research how agents would behave and learn when they start from scratch. 
 
-A Markov decision process (MDP) is an often-used discrete-time framework for modelling the dynamics of an environment (Howard, 1960; Puterman, 1994). A very explicit notation for an MDP is a sextuple $$M = (\mathbb{S}, \mathbb{A}, P, R, I, \gamma)$$, where
+In this blog post we will consider **Markov decision processes**. A Markov decision process (MDP) is an often-used discrete-time framework for modelling the dynamics of an environment ([Howard1960][Howard1960]; [Puterman1994][Puterman1994]). A very explicit notation for an MDP is a sextuple $$M = (\mathbb{S}, \mathbb{A}, P, R, I, \gamma)$$, where
 
 
 - $$\mathbb{S}$$ is the state space; the set of states that the MDP can be in. A state contains information regarding the environment. E.g., when flying a helicopter, a state pertains to the position and orientation of the helicopter. Let $$s \in S$$ denote a context-dependent state, and let $$s_t$$ denote the observed state at timestep $$t$$.
@@ -46,20 +46,7 @@ At the beginning of interaction with an MDP, an agent observes an initial state 
 
 
 
-<!--
-I, myself, find RL very interesting as it tackles two main challenges in machine learning:
-1. If no model of the problem is available, we can learn t
+## References
+[Howard1960] R.A. Howard. Dynamic programming and Markov processes. MIT Press, 1960.
+[Puterman1994] M.L. Puterman. Markov Decision Processes: Discrete Stochastic Dynamic Programming. John Wiley & Sons, Inc. new York, NY, USA, 1994.
 
-
-Thus, RL addresses problems for which one does not have an accurate model as it may have been too costy or simply impossible to get.
-
-For example, a robot on Mars
-
-
-
-
-
-
-Throughout the years, various environments, or **problems**, have been considered and developed various algorithms that cultivate agents, or **solutions**.
-
--->
