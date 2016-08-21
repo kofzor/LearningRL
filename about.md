@@ -1,15 +1,14 @@
 ---
 layout: page
-title: About
+title: Me
 permalink: /about/
 ---
 
-Some information about you!
+My name is Ben Haanstra and I am an Artificial Intelligence master graduate from the Netherlands. My favorite AI topic is, of course, Reinforcement Learning.
+On this blog I'll try to post some fun insights every now and then.
 
-### More Information
 
-A place to include any other types of information that you'd like to include about yourself.
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[ben@haanstra.nl](mailto:ben@haanstra.nl)
