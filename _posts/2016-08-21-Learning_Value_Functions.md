@@ -147,7 +147,10 @@ Put simply, the easiest way to guarantee convergence: use a simple learning rate
 
 
 
-## A simple Python Implementation ##
+## Python Implementations ##
+
+
+### Q-learning ###
 
 For a discrete problem, the following python implementation of Q-learning works well enough:
 
@@ -211,7 +214,9 @@ This code resulted in the following performance:
 ![Q-learning]({{ site.baseurl }}/images/qlearning.png)
 
 
-And here also a simple implementation of SARSA:
+### SARSA ###
+
+Also, a simple implementation of SARSA:
 
 ```python
 import gym
@@ -271,7 +276,149 @@ plt.show()
 
 And the resulting image. Notice that the performance does not seem to converge to the optimal, this is because SARSA is on-policy and the behaviour-policy remains epsilon-greedy with $$\epsilon = 0.1$$ and thus will do a random (bad) action roughly 10% of the time.
 
-![Q-learning]({{ site.baseurl }}/images/sarsa.png)
+![SARSA]({{ site.baseurl }}/images/sarsa.png)
+
+
+
+### Expected SARSA ###
+
+```python
+import gym
+env = gym.make("Taxi-v1")
+
+
+# Q-function
+# initial_Q = 0.
+from collections import defaultdict
+Q = defaultdict(lambda : 0.) # Q-function
+n = defaultdict(lambda : 1.) # number of visits
+
+
+# Extra
+actionspace = range(env.action_space.n)
+greedy_action = lambda s : max(actionspace, key=lambda a : Q[(s,a)])
+import random
+epsilon = 0.1
+gamma = 0.9
+
+
+# Simulation
+episodescores = []
+for _ in range(1000):
+    state = env.reset()
+    currentscore = 0.
+    for t in range(1000):
+        # Epsilon-Greedy
+        if epsilon > random.random() :
+            action = env.action_space.sample() # your agent here (this takes random actions)
+        else :
+            action = greedy_action(state)
+
+        # SARSA
+        if t > 0 : # Because previous state and action do not yet exist at t=0
+            Vpi = sum([ Q[(state, a)] * ((action==a)*(1.-epsilon) + epsilon*(1./len(actionspace))) for a in actionspace ])
+            Q[(prevstate,prevaction)] = Q[(prevstate,prevaction)] + 1./n[(prevstate,prevaction)] * ( reward + gamma * Vpi - Q[(prevstate,prevaction)] )
+
+        nextstate, reward, done, info = env.step(action)
+        currentscore += reward
+
+        if done :
+            Q[(prevstate,prevaction)] = Q[(prevstate,prevaction)] + 1./n[(state,action)] * ( reward - Q[(prevstate,prevaction)] )
+            break
+
+        prevstate, state, prevaction = state, nextstate, action
+
+    episodescores.append(currentscore)
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+plt.plot(episodescores)
+plt.xlabel('Episode')
+plt.ylabel('Cumu. Reward of Episode')
+plt.show()
+```
+
+And its performance:
+![Expected SARSA]({{ site.baseurl }}/images/expectedsarsa.png)
+
+
+### Double Q-learning
+
+Code:
+
+```python
+import gym
+env = gym.make("Taxi-v1")
+
+
+# Q-function
+# initial_Q = 0.
+from collections import defaultdict
+Q = defaultdict(lambda : 0.) # Q-function
+n = defaultdict(lambda : 1.) # number of visits
+
+
+# Extra
+actionspace = range(env.action_space.n)
+greedy_action_i = lambda i, s : max(actionspace, key=lambda a : Q[(i,s,a)])
+max_q = lambda i, sp : max([Q[(i,sp,a)] for a in actionspace])
+greedy_action = lambda s : max(actionspace, key=lambda a : (Q[(0,s,a)]+Q[(1,s,a)])/2.)
+import random
+epsilon = 0.1
+gamma = 0.9
+
+
+# Simulation
+episodescores = []
+for _ in range(1000):
+    nextstate = env.reset()
+    currentscore = 0.
+    for _ in range(1000):
+        state = nextstate
+
+        # Epsilon-Greedy
+        if epsilon > random.random() :
+            action = env.action_space.sample() # your agent here (this takes random actions)
+        else :
+            action = greedy_action(state)
+
+        nextstate, reward, done, info = env.step(action)
+        currentscore += reward
+
+        # Double Q-learning
+        i = random.choice([0,1])
+        o = (i + 1) % 2
+        if done :
+            Q[(i,state,action)] = Q[(i,state,action)] + 1./n[(i,state,action)] * ( reward - Q[(i,state,action)] )
+            break
+        else :
+            greedy_i = greedy_action_i(i,nextstate)
+            Q[(i,state,action)] = Q[(i,state,action)] + 1./n[(i,state,action)] * ( reward + gamma * Q[(o,nextstate,greedy_i)] - Q[(i,state,action)] )
+
+    episodescores.append(currentscore)
+
+
+import matplotlib.pyplot as plt
+plt.plot(episodescores)
+plt.xlabel('Episode')
+plt.ylabel('Cumu. Reward of Episode')
+plt.show()
+```
+
+And the performance:
+![Double Q-learning]({{ site.baseurl }}/images/doubleqlearning.png)
+
+
+### Afterword ###
+
+We have discussed value-functions and a few simple temporal-difference learning algorithms, and demonstrated their implementation and some performance.
+Although SARSA and Expected SARSA look like they perform poorly, they certainly are not always worse than Q-learning. It just so happens that the Taxi environment works quite well with the chosen epsilon-greedy action-selection. In other environments, SARSA and Expected SARSA may perform much better than Q-learning, namely environments were a single mistake inflicts a devastating reward feedback. For example when walking alongside a cliff, the on-policy approach will then take into account the chance that one sometimes randomly wanders off the cliff if it walks too close along the cliff and hence induces a safer policy [Sutton and Barto, 1998].
+
+Next topic is on Advanced Value Functions.
+
+
+
 
 
 
