@@ -93,49 +93,65 @@ $$\pi : \mathbb{S} \times \mathbb{A} \to [0, 1] .$$
 At each timestep, an agent will choose a single action available in the current state
 according to its probability,
 
-$$A_t \sim \pi(H_{0:t}, \cdot)$$ or $$A_t \sim \pi(S_t, \cdot) , $$
+$$A_t \sim \pi(H_{0:t}, \cdot)$$ or $$A_t \sim \pi(S_t, \cdot) $$
 
 which can be interpreted as the agent’s preference for that action.
 
 A policy is stochastic when in some state more than one action has a non-zero probability of being selected. Conversely, a deterministic policy has in each state a
 single action with probability one. In other words you could then also define the policy as a function that maps states to actions.
 
-For a learning agent, its preference over actions can change over time and is therefore time-dependent and typically not Markovian as it is the result of the history. We use $$\Pi$$ to denote the set of all policies. Later on we will also note that one can learn about a policy, while following another *behaviour policy* that is used for interaction with the problem.
+For a learning agent, its preference over actions can change over time and is therefore time-dependent and typically not Markovian as it is the result of the history. We use $$\Pi$$ to denote the set of all policies.
 
 
 ### Objective Functions ###
 
 The performance of a policy $$\pi$$ on a MDP $$M$$ is measured using an *objective function*. In the literature of reinforcement learning, one commonly wants to maximize the *expected sum of discounted rewards*, or *expected return* [C. Szepesvari, 2010]. The expected return of a $$\pi$$ on an $$M$$ for an infinite horizon is defined by
 
-$$J(\pi, M) = \mathbb{E}_{\pi, M} \{ \sum_{t=0}^{\infty} \gamma^t R_t \} ,  $$
+$$J(\pi, M) = \mathbb{E}_{\pi, M} \{ \sum_{t=0}^{\infty} \gamma^t R_t \}  $$
 
-where $$\sum_{t=0}^{\infty} \gamma^t R_t$$ functions as a single random variable called the return, which depends on the stochasticity of rewards, transitions, initial state and the policy. Here I use $$\mathbb{E}_{\pi, M} \{ X \}$$ to denote an expectation of a random variable $$X$$ when following $$\pi$$ on $$M$$.
+where $$\sum_{t=0}^{\infty} \gamma^t R_t$$ functions as a single random variable called the *return*, which depends on the stochasticity of rewards, transitions, initial state and the policy. Here I use $$\mathbb{E}_{\pi, M} \{ X \}$$ to denote an expectation of a random variable $$X$$ when following $$\pi$$ on $$M$$.
 
 The discount rate parameter, $$\gamma \in [0, 1]$$, weighs off immediate rewards versus long-term rewards [Sutton and Barto, 1998]. I.e., a reward received $$n$$ steps in the future only contributes $$\gamma^n$$ of that reward. As $$\gamma$$ goes to one, future rewards contribute more.
 
 Conceptually, $$J(\pi, M)$$ represents the *value of a policy*. An objective function thus enables one to compare and prefer policies based on their values. A policy that optimises the objective function is called an *optimal policy*, and is commonly denoted by $$\pi^*$$. For any MDP, a deterministic Markovian $$\pi^*$$ always exists [Puterman, 1994]. For the expected return over an infinite horizon, it is obvious that $$\pi^*$$ has the maximal possible value:
 
-$$ \pi^* = \argmax_{\pi \in \Pi} J(\pi, M) .$$
+$$ \pi^* = \arg\max_{\pi \in \Pi} J(\pi, M) .$$
+
+In reinforcement learning, we often want to address the problem of control: finding an optimal policy which optimises the chosen objective function. The problem of prediction, which is also known as *policy evaluation* in the literature, is about estimating the value of a policy $$J(\pi, M)$$. Naturally, one can use the latter to solve the former: we can compare and choose the policy with the highest value.
 
 
 
+## Comparing Reinforcement Learning Algorithms###
+
+Although I have not discussed any RL algorithm yet, I think it is very important to understand the concepts in this section. **This is something that might also be of interest to OpenAI/Gym**. In order to correctly compare RL algorithms, it is important to understand the (in my opinion often-forgotten) distinction between *online* versus *offline* reinforcement learning [H. van Hasselt. 2011]. 
+
+Consider the following, when developing learning agents, one can distinguish between a *learning phase* and a *deployment phase*. During the learning phase, the agent tries out actions, learns and infers a good policy for the environment that it can subsequentially follow during the deployment phase, where the agent's performance matters. Note that the learning phase may very well happen within the same environment as the deployment phase. In RL one also distinguishes between an *estimation policy*, the policy one learns about, and the *behaviour policy*, that the agent uses for interaction with the environment. Algorithms for RL can thus be *on-policy* when the estimation policy is the same as the behaviour policy, or *off-policy* when they are different.
+
+In *offline reinforcement learning*, one learns a policy during the learning phase for some predetermined time and then measures the learned policy's performance during deployment. This differs from *online reinforcement learning* where one measures the performance of the *behaviour policy*. Or in other words, the learning and deployment phase occur simulatenously. Evidently, an agent that starts from scratch will perform poorly in the initial stages and it becomes very important to balance between exploring an unknown but potentially good action and exploiting known good actions. This is known as the **exploration versus exploitation dilemma* or *balancing exploration with exploitation* or the *exploration-exploitation trade-off*.
+
+In the literature, the most common approach to measuring and comparing in experiments (as well as in OpenAI/Gym) is to measure the performance of the behaviour policy over a finite timesteps (or episodes) and averaged over a number of timesteps.
 
 
+## Future topics ##
 
+In future blogs, I intent to discuss
 
+- Value functions, and the learning thereof.
+- Exploration-vs-Exploitation in MDPs
+- Difficulties & Troubleshooting RL implementations
 
-
-
-## Online / Offline Reinforcement Learning ##
-
-
+Feel free to suggest topics!
 
 
 
 
 ## References
 [Howard, 1960] R.A. Howard. Dynamic programming and Markov processes. MIT Press, 1960.
+
 [Puterman, 1994] M.L. Puterman. Markov Decision Processes: Discrete Stochastic Dynamic Programming. John Wiley & Sons, Inc. new York, NY, USA, 1994.
+
 [Sutton and Barto, 1998] R.S. Sutton and A.G. Barto. Reinforcement Learning: An Introduction (Adaptive Computation and Machine Learning). The MIT Press, 1998. 
+
 [C. Szepesvari, 2010] Algorithms for Reinforcement Learning. Synthesis Lectures on Artificial Intelligence and Machine Learning. Morgan & Claypool, 2010.
 
+[H. van Hasselt. 2011] Insights in Reinforcement Learning. PhD thesis, Utrecht University, 2011.
