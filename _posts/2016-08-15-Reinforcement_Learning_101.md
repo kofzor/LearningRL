@@ -20,7 +20,7 @@ For example, let's suppose we have a robot (our agent) that we send to Mars (the
 
 Although the idea of RL is to avoid the necessity of modelling an environment, it is naturally very useful to model some environments in order to research how agents would behave and learn when they start from scratch. In this blog post we will consider **Markov decision processes**.
 
-A Markov decision process (MDP) is an often-used discrete-time framework for modelling the dynamics of an environment (Howard, 1960; Puterman, 1994). A very detailed notation for an MDP is a sextuple $M = (\mathbb{S}, \mathbb{A}, P, R, I, \gamma)$, where
+A Markov decision process (MDP) is an often-used discrete-time framework for modelling the dynamics of an environment (Howard, 1960; Puterman, 1994). A very explicit notation for an MDP is a sextuple $$M = (\mathbb{S}, \mathbb{A}, P, R, I, \gamma)$$, where
 
 
 - $\mathbb{S}$ is the state space; the set of states that the MDP can be in. A state contains information regarding the environment. E.g., when flying a helicopter, a state pertains to the position and orientation of the helicopter. Let $s \in S$ denote a context-dependent state, and let $s_t$ denote the observed state at timestep $t$.
@@ -29,6 +29,8 @@ A Markov decision process (MDP) is an often-used discrete-time framework for mod
 - $R : \mathbb{S} \times \mathbb{A} \times \mathbb{S} \times \mathbb{R} \to [0, 1]$; is a reward function that outputs a probability for a numeric reward given a transition. Let $R_t$ denote the random variable for the reward at $t$, and let $r_t$ denote the observed reward at $t$. E.g., arriving at the destination incurs a high reward, and crashing incurs a negative reward.
 - $I : \mathbb{S} \to [0, 1]$; is an initial state function that outputs the probability that a state is the MDPs initial state $s_0$. E.g., the helicopter can take off at several locations.
 - $\gamma \in [0, 1]$; is a discount rate parameter that weighs off imminent rewards versus long-term rewards.
+
+In the literature, one may find different notations. For example, without any initial state, or defining the reward and transition functions differently. To the best of my knowledge, the above notation is the most explicit. Actual implementations of MDPs employ datastructures of the programming language. For example, a numpy matrix with values between 0 and 1 describe the transition of a state-action pair (row) to a subsequent state (column).
 
 
 At the beginning of interaction with an MDP, an agent observes an initial state $s_0$ and chooses an action $a_0$. From that point on, at each discrete timestep $t = 0, 1, 2, \hdots$, it observes a successor state $s_{t+1}$ and a reward $r_{t+1}$, and chooses a new action accordingly.
